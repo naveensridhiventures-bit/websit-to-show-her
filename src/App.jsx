@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import Intro from './Intro.jsx'
 
 // ✏️ EDIT THESE
 const HER_NAME = 'My Girl'
@@ -183,6 +184,8 @@ function Quotes() {
 
 export default function App() {
   useReveal()
+  const [entered, setEntered] = useState(false)
+  if (!entered) return <><Hearts /><Intro onDone={() => { setEntered(true); window.scrollTo(0, 0) }} /></>
   return (
     <>
       <Hearts />
