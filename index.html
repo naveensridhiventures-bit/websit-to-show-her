@@ -2,27 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffd0e5">
 <title>For Shandhi 💖</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Baloo+Thambi+2:wght@500;700;800&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 :root{
-  --pink:#ff3d86; --rose:#ff8fb8; --plum:#7b2ff7; --ink:#3b1030; --card:rgba(255,255,255,.72);
+  --pink:#ff3d86; --rose:#ff8fb8; --plum:#7b2ff7; --ink:#3b1030; --card:rgba(255,255,255,.88);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Baloo 2',system-ui,sans-serif; color:var(--ink);
+  font-family:'Baloo 2','Baloo Thambi 2',system-ui,sans-serif; color:var(--ink); -webkit-tap-highlight-color:transparent;
   background:linear-gradient(135deg,#ffd0e5,#e3d0ff,#ffe1cf,#ffd0e5);
-  background-size:400% 400%; animation:bgmove 18s ease infinite; overflow-x:hidden;
+   overflow-x:hidden;
 }
 @keyframes bgmove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
 /* top bar */
-#progress{position:fixed;top:0;left:0;height:5px;width:0;background:linear-gradient(90deg,var(--pink),var(--plum));z-index:50;border-radius:0 4px 4px 0}
-#meter{position:fixed;top:12px;right:12px;z-index:50;background:var(--card);backdrop-filter:blur(8px);
+#progress{position:fixed;top:0;left:0;height:5px;width:100%;transform:scaleX(0);transform-origin:0 0;will-change:transform;background:linear-gradient(90deg,var(--pink),var(--plum));z-index:50;border-radius:0 4px 4px 0}
+#meter{position:fixed;top:12px;right:12px;z-index:50;background:var(--card);
   padding:6px 14px;border-radius:999px;font-weight:700;font-size:.95rem;box-shadow:0 4px 14px rgba(123,47,247,.18)}
 #meter b{color:var(--pink)}
 
@@ -52,7 +53,7 @@ section.locked{display:none}
   background:linear-gradient(180deg,var(--pink),var(--plum));-webkit-background-clip:text;background-clip:text;color:transparent}
 @keyframes wave{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-14px) rotate(-5deg)}60%{transform:translateY(4px) rotate(3deg)}}
 .tag{font-family:'Pacifico',cursive;font-size:clamp(1.1rem,4vw,1.7rem);margin:18px 0 26px;color:var(--plum)}
-.hero-deco{position:absolute;font-size:clamp(2rem,8vw,4rem);transform:translateY(calc(var(--sy,0) * -0.3px));will-change:transform}
+.hero-deco{position:absolute;font-size:clamp(2rem,8vw,4rem);}
 .deco1{top:12%;left:8%}.deco2{top:18%;right:10%}.deco3{bottom:20%;left:14%}.deco4{bottom:16%;right:12%}
 
 .btn{font-family:inherit;font-weight:800;font-size:1.15rem;border:0;border-radius:999px;padding:14px 30px;cursor:pointer;
@@ -72,7 +73,7 @@ section.locked{display:none}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(14px)}}
 
 /* intro */
-.card{background:var(--card);backdrop-filter:blur(10px);border-radius:28px;padding:28px 26px;max-width:520px;width:100%;
+.card{background:var(--card);border-radius:28px;padding:28px 26px;max-width:520px;width:100%;
   box-shadow:0 14px 40px rgba(123,47,247,.16)}
 .card h2{font-size:1.7rem;margin-bottom:12px}
 .rules{list-style:none;text-align:left;font-size:1.12rem;font-weight:500}
@@ -126,7 +127,7 @@ textarea{min-height:110px;resize:vertical}
 @keyframes fall{to{transform:translateY(112vh) rotate(540deg)}}
 #confetti{z-index:95!important}
 .modal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:18px;
-  background:rgba(40,10,50,.62);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s}
+  background:rgba(40,10,50,.62);opacity:0;pointer-events:none;transition:opacity .35s}
 .modal.show{opacity:1;pointer-events:auto}
 .modal .box{background:#fff;border-radius:28px;padding:22px 20px;max-width:380px;width:100%;text-align:center;
   box-shadow:0 20px 60px rgba(0,0,0,.4);max-height:92vh;overflow:auto;transform:scale(.7);transition:transform .45s cubic-bezier(.2,1.5,.4,1)}
@@ -140,6 +141,43 @@ textarea{min-height:110px;resize:vertical}
 .poster .ps{font-size:.68rem;letter-spacing:1px;white-space:nowrap;opacity:.95;margin-top:2px;font-weight:700}
 .poster .pe{position:absolute;top:14%;font-size:4.2rem;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
 .poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ===== v4: smooth + mobile polish ===== */
+html{-webkit-text-size-adjust:100%}
+body{background:linear-gradient(160deg,#ffd0e5 0%,#e8d6ff 48%,#ffe3d3 100%);background-attachment:scroll;min-height:100%}
+button{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.btn{min-height:50px;max-width:92vw;line-height:1.15}
+.arena{contain:layout;height:clamp(200px,34svh,300px);margin-top:12px}
+.q.hasimg .arena{height:clamp(150px,22svh,190px)}
+.qimg{width:auto;height:auto;max-height:36svh;max-width:min(78vw,300px);aspect-ratio:auto;object-fit:cover}
+.pair{display:flex;gap:12px;justify-content:center;align-items:center;margin:8px 0 10px}
+.pimg{height:auto;max-height:20svh;width:auto;max-width:42vw;min-width:96px;object-fit:cover;border-radius:18px;border:4px solid #fff;
+  box-shadow:0 10px 24px rgba(123,47,247,.25);transform:rotate(-3deg)}
+.pimg.r{transform:rotate(3deg)}
+.revealbox{width:min(92vw,440px);margin-top:12px;background:var(--card);border-radius:24px;padding:14px 16px;
+  box-shadow:0 12px 30px rgba(123,47,247,.2);animation:popin .55s cubic-bezier(.2,1.4,.4,1)}
+.revealbox h3{font-size:1.35rem;line-height:1.25;color:var(--plum);margin:4px 0}
+.revealbox p{font-size:1.02rem}
+.poster{width:auto;height:min(30svh,270px);aspect-ratio:2/3;max-width:60vw}
+.modal .poster{height:min(34svh,300px)}
+#meter{top:calc(10px + env(safe-area-inset-top));right:10px;font-size:.82rem;padding:5px 12px;max-width:78vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+section{padding:max(64px,calc(env(safe-area-inset-top) + 48px)) 16px max(40px,calc(env(safe-area-inset-bottom) + 28px))}
+.q h2{max-width:20ch}
+.hint{padding:0 10px;min-height:2.6em}
+.float{will-change:transform}
+@media (max-width:420px){
+  .btn{font-size:1.05rem;padding:12px 22px}
+  .sub{font-size:1.02rem}
+  .card{padding:22px 18px;border-radius:24px}
+  .rules{font-size:1.02rem}
+}
+@media (min-width:900px){
+  .qimg{max-height:44vh;max-width:340px}
+  .pimg{max-height:26vh}
+  .poster{height:min(40svh,340px)}
+}
+@media (max-height:560px){.qimg,.pimg{max-height:30svh}.poster{height:150px}}
+@media (prefers-reduced-motion:reduce){.float,.bigemoji,.arrow,.start,.eq i{animation:none!important}}
 </style>
 </head>
 <body>
@@ -176,12 +214,11 @@ textarea{min-height:110px;resize:vertical}
     <div class="card reveal">
       <h2>Rules of the game 🎮</h2>
       <ul class="rules">
-        <li>1️⃣ Naan konjam questions kekkaren.</li>
-        <li>2️⃣ Answer sollanum… <b>"Yes"</b> mattum 😌</li>
-        <li>3️⃣ <b>"No"</b> button ellam just decoration 🎀</li>
-        <li>4️⃣ Try pannalam, aana win panna mudiyadhu 😜</li>
-        <li>5️⃣ Sila photo-va paathu <b>guess</b> pannanum 🕵️‍♀️</li>
-        <li>6️⃣ Oru question-ku nee <b>type</b> pannanum ⌨️</li>
+        <li>1️⃣ Naan konjam questions kekkaren 🎤</li>
+        <li>2️⃣ Pudichcha button-a press pannu… aana buttons nee nenaikkara mari irukkaadhu 😜</li>
+        <li>3️⃣ Sila button odiduvaanga — pidikka try pannu 🏃‍♀️</li>
+        <li>4️⃣ Kaasu question-la <b>Yes</b> odiduvaan, <b>No</b> mattum thaan 💸😂</li>
+        <li>5️⃣ Photo paathu guess pannanum, oru question-ku type pannanum 🕵️‍♀️</li>
       </ul>
     </div>
     <button class="arrow reveal d2" data-go="next" aria-label="scroll down">
@@ -239,9 +276,9 @@ const HINTS = ['Nice try 😜','Cursor-a thookki vachudu 😂','No button ku lea
    hints: custom hint list | yesMsg: message after answering | fx:'boondhi' | popup:{...} */
 const QUESTIONS = [
   {id:'guess', img:'photos/earring.jpg', q:'Guess who is she? 🕵️‍♂️', sub:'Indha jhumka potta azhagi yaaru? 😍', mode:'impossible', side:true,
-    yes:'Sandhi 💖', no:'Boondhi 🍬', limit:4, noTurn:'Boondhi 🍬 (seri pudichuko)', doneLabel:'Correct! 🎉', fx:'boondhi',
-    hints:['Boondhi urundu odudhu 🍬😂','Boondhi-a pidikka mudiyadhu 🏃‍♀️','Sandhi-yaa Boondhi-yaa? Rendum nee thaan 😜','Seri seri, pidichuko 😅'],
-    yesMsg:'Sandhi-nu sonnalum Boondhi-nu sonnalum — rendum nee thaan! 🍬💖'},
+    yes:'Boondhi 🍬', no:'Sandhi 💖', limit:999, doneLabel:'Boondhi! 🎉', fx:'boondhi',
+    hints:['Sandhi odiduchu 🏃‍♀️💖','Sandhi-nu koopitta varamaatta 😜','Boondhi-nu koopidu — odi vandhuduvaa 🍬','Boondhi-ya press pannu 🍬👇','Sandhi button-ku leave 🏖️'],
+    yesMsg:'Boondhi! 🍬 Sandhi-nu koopitta odiduva, Boondhi-nu koopitta thaan varuva 😜💖'},
   {id:'butterfly', img:'photos/butterfly.jpg', q:'Indha photo la evlo butterfly irukku? 🦋', sub:'Nalla paathu sollu… 👀', mode:'impossible', side:true,
     yes:'2 🦋🦋', no:'1 🦋', limit:5, noTurn:'2 🦋🦋 (fine)', doneLabel:'Correct! 🎉',
     hints:['1-a? Innoru butterfly paaru 👀','Wall la mattum illa 😜','Number 1 pidikka mudiyadhu 🏃','Kannadi paaru, innoru butterfly theriyum 🪞'],
@@ -254,26 +291,37 @@ const QUESTIONS = [
     ]},
   {id:'walk', img:'photos/walk.jpg', q:'Walking pogradhu nalladhu thaana? 🚶‍♀️', sub:'Un hair-a paathu naan ketkaren 😌', mode:'impossible', limit:6, noTurn:'Seri Yes 😅',
     yesMsg:'Appo naalaiki irundhu naanum varen, daily walk namma jodi-ya 🚶‍♀️🚶‍♂️💞'},
+  {id:'bonda', imgs:['photos/bonda.jpg','photos/tea.jpg'], q:'நீ என் போண்டா டீ-யா இருப்பியா? 🍵', sub:'போண்டாவுக்கு டீ தான் ஜோடி 😍', mode:'impossible', side:true,
+    yes:'ஆமா 💖', no:'இல்ல', limit:5, noTurn:'சரி சரி, ஆமா 😅', doneLabel:'ஆமா! 🎉',
+    hints:['இல்லயா? போண்டா வருத்தப்படும் 🥺','டீ ஆறிடும் ☕😭','இந்த பட்டன் புடிக்க முடியாது 🏃','ஆமா சொல்லு 😘'],
+    yesMsg:'போண்டாவும் டீயும் மாதிரி — செம ஜோடி! 🍵💞',
+    reveal:{imgs:['photos/bru.jpg','photos/sun.jpg'], title:'அப்போ நான் உன் ப்ரூ சன்! ☀️',
+            msg:'Bru காபி மாதிரி, சூரியன் மாதிரி — உன் காலை நான் தான் ☕☀️'}},
   {id:'dinner', emoji:'🍽️', q:'Dinner ku pogalama?', sub:'Neeyum naanum, oru periya plate food 😋', mode:'grow',
     labels:['No','Nope','Sure-a?','Yosi pannu 🤔','Pavam da naan 🥺','Aiyoo plz','Last chance 😭']},
-  {id:'dress', emoji:'👗', q:'Naan unakku oru dress vaangi tharattuma?', sub:'Colour-a nee choose pannikalam 😌', mode:'impossible',
-    hints:['Free dress-a vendaama? 😳','Offer expire aagum ⏳','No button dress-oda odiduchu 🏃‍♀️','Thookki vachudu 😂','Vaanga vaanga 🛍️','Okay dress-a vidaadha 🥹','Yes press pannu pa 😘']},
-  {id:'jhumka', emoji:'💍', q:'Pudhu jhumka naan vaangi tharattuma?', sub:'Peacock design-la, un earring collection-ku 🦚', mode:'impossible',
-    hints:['Earring venaamaa? 😮','Peacock sad aagiduvaan 🦚🥺','No button hide aayiduchu 🙈','Haha pidikka mudiyadhu 🏃','Yes thaan sollanum 😘','Last chance da 😭']},
-  {id:'kevalam', emoji:'😤', q:'Enna kevalama ninaikkiriya?', sub:'Nalla yosichu sollu…', mode:'both',
-    yes:'Yes', no:'Noo', bothMsg:'Yes sonnalum Noo sonnalum answer ore mari thaan 😏 (you love me!)'},
-  {id:'panipuri', emoji:'🥟', q:'Pani puri naan vaangi tharen — share pannuviya?', sub:'Extra masala-vum naan thaan 🌶️', mode:'shrink'},
-  {id:'icecream', emoji:'🍦', q:'Ice cream treat — naan thaan pay panren, varuviya?', sub:'Double scoop, unakku mattum 🍨', mode:'grow',
-    labels:['No','Ice cream-ku No-va? 😳','Melt aagidum 🫠','Chocolate-um iruku 🍫','Plz plz 🥺','Aiyoo da 😭']},
-  {id:'morning', emoji:'☀️', q:'Daily oru "Good morning" message anuppuviya?', sub:'Unga message-ku dhaan naan wake up 🥰', mode:'swap'},
   {id:'drive', emoji:'🚗', q:'Oru long drive, songs-oda pogalama?', sub:'Petrol naan poduren, deal? 🎶', mode:'labels',
     labels:['No','Sure ah?','Think again 🤨','Window seat tharen 🪟','Plz plz 🥺','Okay… Yes 😅']},
+  /* ---- buying things: YES runs away, only NO works ---- */
+  {id:'dress', emoji:'👗', q:'Naan unakku oru dress vaangi tharattuma?', sub:'Colour-a nee choose pannikalam 😌', mode:'yesRuns',
+    yes:'Yes 💖', no:'No 🙅‍♀️', doneLabel:'No ✅',
+    hints:['Yes odi poiduchu 🏃‍♀️💨','Yes-a pidikka mudiyadhu 😂','Dress-ku Yes sollava? Button-ku pidikkala 🙈','Yes retire aagiduchu 🏖️','No mattum thaan option 😌','Vera vazhi illa, No press pannu 👇'],
+    noMsg:'No-nu sollitta! 😂 Kaasu micham 💸 (Yes button odiduchu — naan enna panna 🤷‍♂️)'},
+  {id:'jhumka', emoji:'💍', q:'Pudhu jhumka naan vaangi tharattuma?', sub:'Peacock design-la, un earring collection-ku 🦚', mode:'yesRuns',
+    yes:'Yes 💖', no:'No 🙅‍♀️', doneLabel:'No ✅',
+    hints:['Yes odiduchu 🏃‍♀️','Jhumka-ku Yes-a? Button bayandhuduchu 😂','Peacock thorathuthu Yes-a 🦚💨','Yes vara maatten-nu sollitu 🙈','No thaan iruku da 😌'],
+    noMsg:'Hehe No-nu sollitta! 🦚 Jhumka-kaasu micham 💸😂'},
+  {id:'panipuri', emoji:'🥟', q:'Pani puri naan vaangi tharattuma?', sub:'Extra masala-vum naan thaan 🌶️', mode:'yesRuns',
+    yes:'Yes 💖', no:'No 🙅‍♀️', doneLabel:'No ✅',
+    hints:['Yes mela masala pottuduchu 🌶️🏃‍♀️','Yes-a pidikka mudiyadhu 😂','Pani puri-ku Yes-a? Yes kaaram thaanga mudiyala 🥵','No press pannu pa 😌'],
+    noMsg:'No-nu sollitta! 🥟😂 Pani puri-kaasu micham 💸'},
+  {id:'icecream', emoji:'🍦', q:'Ice cream naan vaangi tharattuma?', sub:'Double scoop, unakku mattum 🍨', mode:'yesRuns',
+    yes:'Yes 💖', no:'No 🙅‍♀️', doneLabel:'No ✅',
+    hints:['Yes urugi odiduchu 🫠🏃‍♀️','Yes-a pidikka mudiyadhu 😂','Ice cream-ku Yes melt aagiduchu 🍦','No thaan option 😌'],
+    noMsg:'No-nu sollitta! 🍦😂 Ice cream-kaasu micham 💸'},
   {id:'jailer', poster:true, q:'Sunday Jailer padathuku vaariya en kooda? 🎬', sub:'First show, popcorn ready 🍿', mode:'impossible', limit:6, noTurn:'Seri seri, Yes 😅',
     hints:['Jailer-ku No-va? Thalaivar kovam paduvaar 😤','Hukum! No button odi poiduchu 🏃','Ticket already book-aagiduchu 🎟️','Rajini sir paathaa kovam varum 🔥','Sunday free thaana? 😏','Yes press pannu, Tiger 🐯'],
-    doneLabel:'Ticket confirmed 🎟️',
-    popup:{title:'Seri… eppadiyaavadhu kadan vaangiyaavadhu poovom! 💸🎬',
-           msg:'Ticket naan book pandren, popcorn-um en selavu 🍿 Sunday first show — ready-a iru, Boondhi 😘', btn:'Hukum! Poovom 🔥'}},
-  {id:'cute', emoji:'😏', q:'Cutest person kitta thaan pesitu irukkennu othukkiriya?', sub:'Mirror pakkathula nikkadha 🪞', mode:'impossible'},
+    doneLabel:'Yes! 🎟️',
+    popup:{title:'Kaasu illa da… 💸😂', msg:'Next Sunday vena try pannuvoom! 🎬 Poster pola mass-a poganum, popcorn mattum en selavu 🍿', btn:'Seri Boondhi 😘'}},
   {id:'last', emoji:'🥺', q:'Neeyum ennai konjam pidikkum nu othukkiriya?', sub:'Last question, promise 🤞', mode:'grow',
     labels:['No','Kandippa?','Heart-a thottu sollu 💓','Appo Yes thaan 😌','Plzzz 🥹','Aiyo da 😭']}
 ];
@@ -295,7 +343,8 @@ const $ = s => document.querySelector(s);
 (function(){
   const em = ['💖','💕','✨','🌸','🍫','💫','🦋','🍰','🎀'];
   const box = $('#floats');
-  for(let i=0;i<24;i++){
+  const nF = innerWidth < 600 ? 8 : 14;
+  for(let i=0;i<nF;i++){
     const s = document.createElement('span'); s.className='float'; s.textContent = em[i % em.length];
     s.style.left = Math.random()*100+'%'; s.style.fontSize = (14+Math.random()*26)+'px';
     s.style.animationDuration = (9+Math.random()*10)+'s'; s.style.animationDelay = (-Math.random()*18)+'s';
@@ -309,8 +358,7 @@ addEventListener('scroll', ()=>{
   if(ticking) return; ticking = true;
   requestAnimationFrame(()=>{
     const max = document.documentElement.scrollHeight - innerHeight;
-    $('#progress').style.width = (max>0 ? scrollY/max*100 : 0)+'%';
-    document.documentElement.style.setProperty('--sy', scrollY);
+    $('#progress').style.transform = 'scaleX('+(max>0 ? Math.min(1,scrollY/max) : 0)+')';
     ticking = false;
   });
 }, {passive:true});
@@ -345,11 +393,12 @@ $('#startBtn').addEventListener('click', ()=>{ burst(innerWidth/2, innerHeight/2
 const cv = $('#confetti'), cx = cv.getContext('2d'); let parts = [], running = false;
 function sizeCanvas(){ cv.width = innerWidth; cv.height = innerHeight; } sizeCanvas(); addEventListener('resize', sizeCanvas);
 function burst(x,y,n=90){
+  n = Math.min(n, 64); if(parts.length > 150) return;
   const em = ['💖','🎉','✨','💕','🌸'];
   for(let i=0;i<n;i++){
     const a = Math.random()*Math.PI*2, v = 4+Math.random()*9;
     parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-6,life:100+Math.random()*60,size:12+Math.random()*16,
-      e: Math.random()<.45 ? em[(Math.random()*em.length)|0] : null, c:`hsl(${Math.random()*360} 90% 60%)`,r:Math.random()*6,vr:(Math.random()-.5)*.3});
+      e: Math.random()<.3 ? em[(Math.random()*em.length)|0] : null, c:`hsl(${Math.random()*360} 90% 60%)`,r:Math.random()*6,vr:(Math.random()-.5)*.3});
   }
   if(!running){ running = true; requestAnimationFrame(tick); }
 }
@@ -368,7 +417,7 @@ function tick(){
 
 /* ======== CURSOR HEART TRAIL ======== */
 let lastTrail = 0;
-addEventListener('pointermove', e => {
+if(matchMedia('(hover:hover) and (pointer:fine)').matches) addEventListener('pointermove', e => {
   const now = performance.now(); if(now - lastTrail < 70) return; lastTrail = now;
   const s = document.createElement('span'); s.className = 'trail'; s.textContent = ['💖','✨','💕'][(Math.random()*3)|0];
   s.style.left = e.clientX+'px'; s.style.top = e.clientY+'px'; document.body.appendChild(s);
@@ -379,17 +428,21 @@ addEventListener('pointermove', e => {
 const arrowSVG = '<small>scroll pannu</small><svg viewBox="0 0 48 48"><path d="M10 16l14 14 14-14"/><path d="M10 30l14 14 14-14" opacity=".45"/></svg>';
 
 function posterHTML(){
-  return `<div class="poster"><div class="pe">🦁</div><img src="photos/jailer.jpg" alt="" onerror="this.remove()">
-    <div class="pt">JAILER</div><div class="ps">SUNDAY • FIRST SHOW</div></div>`;
+  return `<div class="poster"><div class="pe">🦁</div><div class="pt">JAILER 2</div><div class="ps">SUNDAY • FIRST SHOW</div>
+    <img src="photos/jailer.jpg" alt="Jailer 2 poster" decoding="async" onerror="this.remove()"></div>`;
 }
 
 function buildQuestion(item,i){
   if(item.type === 'type') return buildTyped(item,i);
-  const s = document.createElement('section'); s.className = 'q' + (item.img ? ' hasimg' : '') + (i === 0 ? '' : ' locked'); s.id = 'q-'+item.id;
+  const hasImg = item.img || item.imgs;
+  const s = document.createElement('section'); s.className = 'q' + (hasImg ? ' hasimg' : '') + (i === 0 ? '' : ' locked'); s.id = 'q-'+item.id;
   const yesLabel = item.yes || 'Yes 💖', noLabel = item.no || 'No';
-  const visual = item.img ? `<img class="qimg reveal d1${i%2 ? ' r' : ''}" src="${item.img}" alt="">`
+  const pair = arr => `<div class="pair">${arr.map((u,k)=>`<img class="pimg${k?' r':''}" src="${u}" alt="" decoding="async">`).join('')}</div>`;
+  const visual = item.imgs ? `<div class="reveal d1">${pair(item.imgs)}</div>`
+    : item.img ? `<img class="qimg reveal d1${i%2 ? ' r' : ''}" src="${item.img}" alt="" decoding="async">`
     : item.poster ? `<div class="reveal d1" style="margin:8px 0">${posterHTML()}</div>`
     : `<div class="bigemoji reveal d1">${item.emoji}</div>`;
+  const revealHTML = item.reveal ? `<div class="revealbox" hidden>${pair(item.reveal.imgs)}<h3>${item.reveal.title}</h3><p>${item.reveal.msg}</p></div>` : '';
   s.innerHTML = `
     <div class="qmeta reveal">Question ${i+1} of ${QUESTIONS.length}</div>
     ${visual}
@@ -400,12 +453,13 @@ function buildQuestion(item,i){
       <button class="btn no ${item.mode==='impossible'?'fast':''}">${noLabel}</button>
     </div>
     <p class="hint"></p>
+    ${revealHTML}
     <button class="arrow hidden" data-go="next" aria-label="next">${arrowSVG}</button>`;
   const st = {item, i, el:s, arena:s.querySelector('.arena'), yes:s.querySelector('.yes'), no:s.querySelector('.no'),
-    hintEl:s.querySelector('.hint'), arrow:s.querySelector('.arrow'), ys:1, ns:1, tries:0, done:false, noIsYes:false, last:0,
+    hintEl:s.querySelector('.hint'), arrow:s.querySelector('.arrow'), revealEl:s.querySelector('.revealbox'), ys:1, ns:1, tries:0, done:false, noIsYes:false, last:0,
     yesPos:['50%','38%'], noPos:['50%','84%']};
   if(item.mode === 'swap'){ st.yesPos = ['30%','50%']; st.noPos = ['70%','50%']; }
-  if(item.side){ st.yesPos = ['27%','50%']; st.noPos = ['73%','50%']; }
+  if(item.side || item.mode === 'yesRuns'){ st.yesPos = ['27%','50%']; st.noPos = ['73%','50%']; }
   if(item.mode === 'both'){ st.yesPos = ['32%','50%']; st.noPos = ['68%','50%']; }
   states.push(st);
   place(st, true);
@@ -462,20 +516,21 @@ function place(st, initial){
   st.no.style.transform = `translate(-50%,-50%) scale(${st.ns})`;
 }
 
-function dodge(st, e){
-  const a = st.arena.getBoundingClientRect(), nb = st.no.getBoundingClientRect(), yb = st.yes.getBoundingClientRect();
+function dodge(st, e, mover, other){
+  mover = mover || st.no; other = other || st.yes;
+  const a = st.arena.getBoundingClientRect(), nb = mover.getBoundingClientRect(), yb = other.getBoundingClientRect();
   const w = nb.width, h = nb.height;
   const px = e && e.clientX != null ? e.clientX : -999, py = e && e.clientY != null ? e.clientY : -999;
   let best = null;
   for(let t=0;t<30;t++){
     const x = w/2 + Math.random()*Math.max(1,a.width-w), y = h/2 + Math.random()*Math.max(1,a.height-h);
     const cxp = a.left + x, cyp = a.top + y;
-    const far = Math.hypot(cxp-px, cyp-py) > 160;
+    const far = Math.hypot(cxp-px, cyp-py) > 130;
     const overlap = !(cxp+w/2 < yb.left-10 || cxp-w/2 > yb.right+10 || cyp+h/2 < yb.top-10 || cyp-h/2 > yb.bottom+10);
     if(!best) best = [x,y];
     if(far && !overlap){ best = [x,y]; break; }
   }
-  st.no.style.left = best[0]+'px'; st.no.style.top = best[1]+'px';
+  mover.style.left = best[0]+'px'; mover.style.top = best[1]+'px';
 }
 
 function turnIntoYes(st, label){
@@ -514,7 +569,26 @@ function noAttempt(st, e){
   updateMeter();
 }
 
+function yesAttempt(st, e){
+  const now = performance.now(); if(now - st.last < 160) return; st.last = now;
+  if(st.done) return;
+  st.tries++; totalNo++;
+  const hl = st.item.hints || HINTS;
+  st.hintEl.textContent = hl[Math.min(st.tries-1, hl.length-1)];
+  st.ys = Math.max(.62, st.ys - .06); st.ns = Math.min(1.3, st.ns + .05);
+  dodge(st, e, st.yes, st.no); place(st); updateMeter();
+}
+
 function wire(st){
+  if(st.item.mode === 'yesRuns'){
+    ['pointerenter','pointerdown','focus'].forEach(ev => st.yes.addEventListener(ev, e => {
+      if(ev === 'pointerdown') e.preventDefault();
+      yesAttempt(st, e);
+    }));
+    st.yes.addEventListener('click', e => { e.preventDefault(); yesAttempt(st, e); });
+    st.no.addEventListener('click', e => answer(st, e, 'no'));
+    return;
+  }
   ['pointerenter','pointerdown','focus'].forEach(ev => st.no.addEventListener(ev, e => {
     if(st.item.mode === 'both') return;
     if(ev === 'pointerdown' && !st.noIsYes) e.preventDefault();
@@ -558,17 +632,27 @@ function showPopup(p, cb){
 
 function answer(st, e, viaNo){
   if(st.done) return; st.done = true; answered++;
-  const r = st.yes.getBoundingClientRect();
-  burst(r.left + r.width/2, r.top + r.height/2, 110);
-  st.yes.textContent = st.item.doneLabel || 'Yes! 🎉';
-  st.yes.style.left = '50%'; st.yes.style.top = '50%'; st.ys = 1.4; place(st);
-  st.no.style.opacity = 0; st.no.style.pointerEvents = 'none';
-  st.hintEl.textContent = viaNo && st.item.bothMsg ? st.item.bothMsg : (st.item.yesMsg || 'Good girl 😘 Sema!');
+  const noRoute = st.item.mode === 'yesRuns';
+  const btn = noRoute ? st.no : st.yes, other = noRoute ? st.yes : st.no;
+  const r = btn.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, 80);
+  btn.textContent = st.item.doneLabel || 'Yes! 🎉';
+  btn.style.left = '50%'; btn.style.top = '50%';
+  if(noRoute){ st.ns = 1.35; } else { st.ys = 1.4; }
+  place(st);
+  other.style.opacity = 0; other.style.pointerEvents = 'none';
+  st.hintEl.textContent = noRoute ? (st.item.noMsg || 'Haha No-nu sollitta 😂')
+    : (viaNo && st.item.bothMsg ? st.item.bothMsg : (st.item.yesMsg || 'Good girl 😘 Sema!'));
   st.arrow.classList.remove('hidden');
   if(st.item.fx === 'boondhi') rain();
   updateMeter();
-  if(st.item.popup) setTimeout(()=> showPopup(Object.assign({poster:true}, st.item.popup), ()=> advance(st, 350)), 1100);
-  else advance(st, st.item.fx ? 3200 : 1600);
+  if(st.item.reveal){
+    setTimeout(()=>{ st.revealEl.hidden = false; burst(innerWidth/2, innerHeight*.4, 60);
+      st.revealEl.scrollIntoView({behavior:'smooth', block:'center'}); }, 1100);
+    advance(st, 6500);
+  }
+  else if(st.item.popup) setTimeout(()=> showPopup(Object.assign({poster:true}, st.item.popup), ()=> advance(st, 350)), 1100);
+  else advance(st, st.item.fx ? 3200 : (noRoute ? 2200 : 1600));
 }
 
 function updateMeter(){
@@ -592,7 +676,7 @@ function buildMessage(){
   const lines = [`Hii ${CONFIG.from}! 💌 Shandhi here — I finished your website 😄`, '', 'My answers:'];
   states.forEach((st,i)=> lines.push(st.item.type === 'type'
     ? `${i+1}. ${st.item.q} → "${st.extra || '-'}" ✍️`
-    : `${i+1}. ${st.item.q} → ${st.done ? 'YES ✅' : 'skipped'} (tried to say no ${st.tries}x 😜)`));
+    : `${i+1}. ${st.item.q} → ${st.done ? (st.item.mode === 'yesRuns' ? 'NO 🙅‍♀️ (Yes ran away 😂)' : 'YES ✅') : 'skipped'} (tried to say no ${st.tries}x 😜)`));
   lines.push('', `Total "No" attempts: ${totalNo}`, `Rating: ${rating ? '💖'.repeat(rating) : '-'} (${rating}/5)`,
     `Favourite question: ${$('#fav').value.trim() || '-'}`, `Feedback: ${$('#msg').value.trim() || '-'}`);
   return lines.join('\n');
@@ -601,7 +685,7 @@ function buildMessage(){
 function finish(){
   const f = $('#finale'); f.classList.remove('locked');
   $('#quote').innerHTML = CONFIG.quote.join('<br>');
-  $('#summary').textContent = `${answered} / ${QUESTIONS.length} Yes · ${totalNo} failed "No" attempts 😂`;
+  $('#summary').textContent = `${answered} / ${QUESTIONS.length} Yes · ${totalNo} button chases 😂`;
   observeAll(f);
   setTimeout(()=>{
     f.scrollIntoView({behavior:'smooth'});
