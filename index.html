@@ -108,6 +108,38 @@ textarea{min-height:110px;resize:vertical}
 @keyframes shine{to{background-position:300% 0}}
 .sign{font-weight:800;font-size:1.3rem}
 .summary{margin-top:14px;font-weight:700;color:var(--plum)}
+
+/* ===== v3 additions ===== */
+.qimg{width:min(74vw,290px);max-height:42vh;object-fit:cover;border-radius:24px;border:6px solid #fff;
+  box-shadow:0 14px 34px rgba(123,47,247,.28);margin:8px 0 10px;transform:rotate(-2deg);transition:transform .5s}
+.qimg.r{transform:rotate(2deg)}
+.qimg:hover{transform:rotate(0) scale(1.03)}
+.q.hasimg h2{font-size:clamp(1.4rem,5.4vw,2.2rem)}
+.q.hasimg .arena{height:190px;margin-top:6px}
+.typebox{width:min(92vw,460px);margin-top:10px}
+.typebox textarea{min-height:84px}
+.replybox{width:min(92vw,460px);margin-top:12px;background:var(--card);border-radius:22px;padding:14px 16px;animation:popin .5s cubic-bezier(.2,1.4,.4,1)}
+.replybox .said{font-weight:700;color:var(--plum)}
+@keyframes popin{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+.rain{position:fixed;inset:0;z-index:85;pointer-events:none;overflow:hidden}
+.rain span{position:absolute;top:-40px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(540deg)}}
+#confetti{z-index:95!important}
+.modal{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:18px;
+  background:rgba(40,10,50,.62);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s}
+.modal.show{opacity:1;pointer-events:auto}
+.modal .box{background:#fff;border-radius:28px;padding:22px 20px;max-width:380px;width:100%;text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);max-height:92vh;overflow:auto;transform:scale(.7);transition:transform .45s cubic-bezier(.2,1.5,.4,1)}
+.modal.show .box{transform:none}
+.modal h3{font-size:1.45rem;line-height:1.2;margin:12px 0 6px;color:var(--ink)}
+.modal p{font-size:1.05rem;margin-bottom:14px}
+.poster{position:relative;width:min(52vw,190px);aspect-ratio:2/3;margin:0 auto;border-radius:16px;overflow:hidden;
+  background:radial-gradient(circle at 50% 30%,#ffb300 0,#d84315 38%,#2b0a05 80%);box-shadow:0 12px 30px rgba(0,0,0,.45);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:14px;color:#fff;border:4px solid #fff}
+.poster .pt{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:2.1rem;letter-spacing:3px;color:#ffd54f;text-shadow:0 3px 0 #7a1c00,0 0 18px rgba(255,200,0,.7)}
+.poster .ps{font-size:.68rem;letter-spacing:1px;white-space:nowrap;opacity:.95;margin-top:2px;font-weight:700}
+.poster .pe{position:absolute;top:14%;font-size:4.2rem;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
+.poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 </style>
 </head>
 <body>
@@ -115,6 +147,14 @@ textarea{min-height:110px;resize:vertical}
 <div id="meter">💗 Love meter: <b id="meterVal">0%</b></div>
 <canvas id="confetti"></canvas>
 <div id="floats"></div>
+
+
+<div class="modal" id="modal" aria-hidden="true"><div class="box">
+  <div id="modalPoster"></div>
+  <h3 id="modalTitle"></h3><p id="modalMsg"></p>
+  <button class="btn yes" id="modalBtn">Ok 💖</button>
+</div></div>
+<div class="rain" id="rain"></div>
 
 <main>
   <!-- HERO -->
@@ -140,6 +180,8 @@ textarea{min-height:110px;resize:vertical}
         <li>2️⃣ Answer sollanum… <b>"Yes"</b> mattum 😌</li>
         <li>3️⃣ <b>"No"</b> button ellam just decoration 🎀</li>
         <li>4️⃣ Try pannalam, aana win panna mudiyadhu 😜</li>
+        <li>5️⃣ Sila photo-va paathu <b>guess</b> pannanum 🕵️‍♀️</li>
+        <li>6️⃣ Oru question-ku nee <b>type</b> pannanum ⌨️</li>
       </ul>
     </div>
     <button class="arrow reveal d2" data-go="next" aria-label="scroll down">
@@ -192,16 +234,45 @@ const CONFIG = {
 const HINTS = ['Nice try 😜','Cursor-a thookki vachudu 😂','No button ku leave 🏖️','Haha pidikka mudiyadhu 🏃‍♂️',
   'Aiyoo vidu da 😭','Yes thaan sollanum 😘','Thookitu poidu — Yes press pannu 🥹'];
 
+/* mode: grow | impossible | both | shrink | swap | labels
+   img: photo shown above the question | side: yes/no side by side | limit: tries before No turns into Yes
+   hints: custom hint list | yesMsg: message after answering | fx:'boondhi' | popup:{...} */
 const QUESTIONS = [
+  {id:'guess', img:'photos/earring.jpg', q:'Guess who is she? 🕵️‍♂️', sub:'Indha jhumka potta azhagi yaaru? 😍', mode:'impossible', side:true,
+    yes:'Sandhi 💖', no:'Boondhi 🍬', limit:4, noTurn:'Boondhi 🍬 (seri pudichuko)', doneLabel:'Correct! 🎉', fx:'boondhi',
+    hints:['Boondhi urundu odudhu 🍬😂','Boondhi-a pidikka mudiyadhu 🏃‍♀️','Sandhi-yaa Boondhi-yaa? Rendum nee thaan 😜','Seri seri, pidichuko 😅'],
+    yesMsg:'Sandhi-nu sonnalum Boondhi-nu sonnalum — rendum nee thaan! 🍬💖'},
+  {id:'butterfly', img:'photos/butterfly.jpg', q:'Indha photo la evlo butterfly irukku? 🦋', sub:'Nalla paathu sollu… 👀', mode:'impossible', side:true,
+    yes:'2 🦋🦋', no:'1 🦋', limit:5, noTurn:'2 🦋🦋 (fine)', doneLabel:'Correct! 🎉',
+    hints:['1-a? Innoru butterfly paaru 👀','Wall la mattum illa 😜','Number 1 pidikka mudiyadhu 🏃','Kannadi paaru, innoru butterfly theriyum 🪞'],
+    yesMsg:'Correct! Wall la oru butterfly 🦋 — innoru butterfly nee thaan 😍'},
+  {id:'wall', type:'type', img:'photos/saree.jpg', q:'Edhuku suvathula mutti kura? 🤨', sub:'Honest-a type pannu… 😏',
+    placeholder:'Un reason inga type pannu…',
+    replies:[
+      {label:'Ella en neram 😩', msg:'Ella en neram da… 😭 aana saree-la nee cute-a thaan irukka 🥹'},
+      {label:'2 na paithiyam 🤪', msg:'Rendu perum paithiyam thaan — correct jodi 😂💞'}
+    ]},
+  {id:'walk', img:'photos/walk.jpg', q:'Walking pogradhu nalladhu thaana? 🚶‍♀️', sub:'Un hair-a paathu naan ketkaren 😌', mode:'impossible', limit:6, noTurn:'Seri Yes 😅',
+    yesMsg:'Appo naalaiki irundhu naanum varen, daily walk namma jodi-ya 🚶‍♀️🚶‍♂️💞'},
   {id:'dinner', emoji:'🍽️', q:'Dinner ku pogalama?', sub:'Neeyum naanum, oru periya plate food 😋', mode:'grow',
     labels:['No','Nope','Sure-a?','Yosi pannu 🤔','Pavam da naan 🥺','Aiyoo plz','Last chance 😭']},
-  {id:'dress', emoji:'👗', q:'Naan unakku oru dress vaangi tharattuma?', sub:'Colour-a nee choose pannikalam 😌', mode:'impossible'},
+  {id:'dress', emoji:'👗', q:'Naan unakku oru dress vaangi tharattuma?', sub:'Colour-a nee choose pannikalam 😌', mode:'impossible',
+    hints:['Free dress-a vendaama? 😳','Offer expire aagum ⏳','No button dress-oda odiduchu 🏃‍♀️','Thookki vachudu 😂','Vaanga vaanga 🛍️','Okay dress-a vidaadha 🥹','Yes press pannu pa 😘']},
+  {id:'jhumka', emoji:'💍', q:'Pudhu jhumka naan vaangi tharattuma?', sub:'Peacock design-la, un earring collection-ku 🦚', mode:'impossible',
+    hints:['Earring venaamaa? 😮','Peacock sad aagiduvaan 🦚🥺','No button hide aayiduchu 🙈','Haha pidikka mudiyadhu 🏃','Yes thaan sollanum 😘','Last chance da 😭']},
   {id:'kevalam', emoji:'😤', q:'Enna kevalama ninaikkiriya?', sub:'Nalla yosichu sollu…', mode:'both',
     yes:'Yes', no:'Noo', bothMsg:'Yes sonnalum Noo sonnalum answer ore mari thaan 😏 (you love me!)'},
   {id:'panipuri', emoji:'🥟', q:'Pani puri naan vaangi tharen — share pannuviya?', sub:'Extra masala-vum naan thaan 🌶️', mode:'shrink'},
+  {id:'icecream', emoji:'🍦', q:'Ice cream treat — naan thaan pay panren, varuviya?', sub:'Double scoop, unakku mattum 🍨', mode:'grow',
+    labels:['No','Ice cream-ku No-va? 😳','Melt aagidum 🫠','Chocolate-um iruku 🍫','Plz plz 🥺','Aiyoo da 😭']},
   {id:'morning', emoji:'☀️', q:'Daily oru "Good morning" message anuppuviya?', sub:'Unga message-ku dhaan naan wake up 🥰', mode:'swap'},
   {id:'drive', emoji:'🚗', q:'Oru long drive, songs-oda pogalama?', sub:'Petrol naan poduren, deal? 🎶', mode:'labels',
     labels:['No','Sure ah?','Think again 🤨','Window seat tharen 🪟','Plz plz 🥺','Okay… Yes 😅']},
+  {id:'jailer', poster:true, q:'Sunday Jailer padathuku vaariya en kooda? 🎬', sub:'First show, popcorn ready 🍿', mode:'impossible', limit:6, noTurn:'Seri seri, Yes 😅',
+    hints:['Jailer-ku No-va? Thalaivar kovam paduvaar 😤','Hukum! No button odi poiduchu 🏃','Ticket already book-aagiduchu 🎟️','Rajini sir paathaa kovam varum 🔥','Sunday free thaana? 😏','Yes press pannu, Tiger 🐯'],
+    doneLabel:'Ticket confirmed 🎟️',
+    popup:{title:'Seri… eppadiyaavadhu kadan vaangiyaavadhu poovom! 💸🎬',
+           msg:'Ticket naan book pandren, popcorn-um en selavu 🍿 Sunday first show — ready-a iru, Boondhi 😘', btn:'Hukum! Poovom 🔥'}},
   {id:'cute', emoji:'😏', q:'Cutest person kitta thaan pesitu irukkennu othukkiriya?', sub:'Mirror pakkathula nikkadha 🪞', mode:'impossible'},
   {id:'last', emoji:'🥺', q:'Neeyum ennai konjam pidikkum nu othukkiriya?', sub:'Last question, promise 🤞', mode:'grow',
     labels:['No','Kandippa?','Heart-a thottu sollu 💓','Appo Yes thaan 😌','Plzzz 🥹','Aiyo da 😭']}
@@ -307,12 +378,21 @@ addEventListener('pointermove', e => {
 /* ======== QUESTIONS ======== */
 const arrowSVG = '<small>scroll pannu</small><svg viewBox="0 0 48 48"><path d="M10 16l14 14 14-14"/><path d="M10 30l14 14 14-14" opacity=".45"/></svg>';
 
+function posterHTML(){
+  return `<div class="poster"><div class="pe">🦁</div><img src="photos/jailer.jpg" alt="" onerror="this.remove()">
+    <div class="pt">JAILER</div><div class="ps">SUNDAY • FIRST SHOW</div></div>`;
+}
+
 function buildQuestion(item,i){
-  const s = document.createElement('section'); s.className = 'q' + (i === 0 ? '' : ' locked'); s.id = 'q-'+item.id;
+  if(item.type === 'type') return buildTyped(item,i);
+  const s = document.createElement('section'); s.className = 'q' + (item.img ? ' hasimg' : '') + (i === 0 ? '' : ' locked'); s.id = 'q-'+item.id;
   const yesLabel = item.yes || 'Yes 💖', noLabel = item.no || 'No';
+  const visual = item.img ? `<img class="qimg reveal d1${i%2 ? ' r' : ''}" src="${item.img}" alt="">`
+    : item.poster ? `<div class="reveal d1" style="margin:8px 0">${posterHTML()}</div>`
+    : `<div class="bigemoji reveal d1">${item.emoji}</div>`;
   s.innerHTML = `
     <div class="qmeta reveal">Question ${i+1} of ${QUESTIONS.length}</div>
-    <div class="bigemoji reveal d1">${item.emoji}</div>
+    ${visual}
     <h2 class="reveal d1">${item.q}</h2>
     <p class="sub reveal d2">${item.sub}</p>
     <div class="arena reveal d3">
@@ -325,10 +405,51 @@ function buildQuestion(item,i){
     hintEl:s.querySelector('.hint'), arrow:s.querySelector('.arrow'), ys:1, ns:1, tries:0, done:false, noIsYes:false, last:0,
     yesPos:['50%','38%'], noPos:['50%','84%']};
   if(item.mode === 'swap'){ st.yesPos = ['30%','50%']; st.noPos = ['70%','50%']; }
+  if(item.side){ st.yesPos = ['27%','50%']; st.noPos = ['73%','50%']; }
   if(item.mode === 'both'){ st.yesPos = ['32%','50%']; st.noPos = ['68%','50%']; }
   states.push(st);
   place(st, true);
   wire(st);
+  return s;
+}
+
+/* the "type your answer" question */
+function buildTyped(item,i){
+  const s = document.createElement('section'); s.className = 'q hasimg' + (i === 0 ? '' : ' locked'); s.id = 'q-'+item.id;
+  s.innerHTML = `
+    <div class="qmeta reveal">Question ${i+1} of ${QUESTIONS.length}</div>
+    <img class="qimg reveal d1${i%2 ? ' r' : ''}" src="${item.img}" alt="">
+    <h2 class="reveal d1">${item.q}</h2>
+    <p class="sub reveal d2">${item.sub}</p>
+    <div class="typebox reveal d3">
+      <textarea placeholder="${item.placeholder}"></textarea>
+      <div class="row"><button class="btn yes send">Sollu 😏</button></div>
+    </div>
+    <div class="replybox" hidden>
+      <p class="said"></p>
+      <p class="small">Naan epdi answer pannanum? 👇</p>
+      <div class="row">${item.replies.map((r,k)=>`<button class="btn ghost rep" data-k="${k}">${r.label}</button>`).join('')}</div>
+    </div>
+    <p class="hint"></p>
+    <button class="arrow hidden" data-go="next" aria-label="next">${arrowSVG}</button>`;
+  const st = {item, i, el:s, tries:0, done:false, extra:'', hintEl:s.querySelector('.hint'), arrow:s.querySelector('.arrow')};
+  const box = s.querySelector('.typebox'), rb = s.querySelector('.replybox'), ta = s.querySelector('textarea');
+  s.querySelector('.send').addEventListener('click', ()=>{
+    const v = ta.value.trim();
+    if(!v){ st.hintEl.textContent = 'Edhavadhu type pannu da 😜'; return; }
+    st.extra = v; st.hintEl.textContent = '';
+    box.style.display = 'none'; rb.hidden = false;
+    rb.querySelector('.said').textContent = `Nee sonnadhu: “${v}” 🤭`;
+  });
+  s.querySelectorAll('.rep').forEach(b => b.addEventListener('click', ()=>{
+    if(st.done) return; st.done = true; answered++;
+    const r = item.replies[+b.dataset.k], bb = b.getBoundingClientRect();
+    burst(bb.left + bb.width/2, bb.top, 100);
+    rb.querySelectorAll('.rep').forEach(x => x.disabled = true);
+    st.hintEl.textContent = r.msg; st.arrow.classList.remove('hidden');
+    updateMeter(); advance(st, 2200);
+  }));
+  states.push(st);
   return s;
 }
 
@@ -370,7 +491,8 @@ function noAttempt(st, e){
   const m = st.item.mode;
   if(m === 'both'){ if(e.type === 'click') answer(st, e, true); return; }
   st.tries++; totalNo++;
-  st.hintEl.textContent = HINTS[Math.min(st.tries-1, HINTS.length-1)];
+  const hl = st.item.hints || HINTS;
+  st.hintEl.textContent = hl[Math.min(st.tries-1, hl.length-1)];
   const labels = st.item.labels;
   if(labels) st.no.textContent = labels[Math.min(st.tries, labels.length-1)];
 
@@ -378,7 +500,7 @@ function noAttempt(st, e){
     st.ys = Math.min(st.ys + .3, 2.4); st.ns = Math.max(st.ns - .06, .55); dodge(st, e); place(st);
   } else if(m === 'impossible'){
     dodge(st, e); place(st);
-    if(st.tries >= 7) turnIntoYes(st);
+    if(st.tries >= (st.item.limit || 7)) turnIntoYes(st, st.item.noTurn);
   } else if(m === 'shrink'){
     st.ns *= .8; dodge(st, e); place(st);
     if(st.ns < .24){ st.no.style.opacity = 0; st.no.style.pointerEvents = 'none'; st.hintEl.textContent = 'No button retire aayiduchu 🎉 Yes thaan iruku!'; }
@@ -404,21 +526,49 @@ function wire(st){
   st.yes.addEventListener('click', e => answer(st, e));
 }
 
-function answer(st, e, viaNo){
-  if(st.done) return; st.done = true; answered++;
-  const r = st.yes.getBoundingClientRect();
-  burst(r.left + r.width/2, r.top + r.height/2, 110);
-  st.yes.textContent = 'Yes! 🎉';
-  st.yes.style.left = '50%'; st.yes.style.top = '50%'; st.ys = 1.4; place(st);
-  st.no.style.opacity = 0; st.no.style.pointerEvents = 'none';
-  st.hintEl.textContent = viaNo && st.item.bothMsg ? st.item.bothMsg : 'Good girl 😘 Sema!';
-  st.arrow.classList.remove('hidden');
-  updateMeter();
+/* go to the next question (or feedback) */
+function advance(st, delay){
   setTimeout(()=>{
     const nxt = states[st.i+1];
     if(nxt){ nxt.el.classList.remove('locked'); observeAll(nxt.el); nxt.el.scrollIntoView({behavior:'smooth'}); }
     else { const f = $('#feedback'); f.classList.remove('locked'); observeAll(f); f.scrollIntoView({behavior:'smooth'}); }
-  }, 1600);
+  }, delay);
+}
+
+/* boondhi (little sweet balls) rain */
+function rain(){
+  const box = $('#rain'), em = ['🟡','🟠','🍬','🟡','✨','🍯'];
+  for(let i=0;i<46;i++){
+    const sp = document.createElement('span'); sp.textContent = em[i % em.length];
+    sp.style.left = Math.random()*100+'%'; sp.style.fontSize = (16+Math.random()*22)+'px';
+    sp.style.animationDuration = (2.2+Math.random()*2.4)+'s'; sp.style.animationDelay = (Math.random()*1.2)+'s';
+    box.appendChild(sp); setTimeout(()=>sp.remove(), 6500);
+  }
+}
+
+/* popup (Jailer) */
+function showPopup(p, cb){
+  $('#modalPoster').innerHTML = p.poster ? posterHTML() : '';
+  $('#modalTitle').textContent = p.title; $('#modalMsg').textContent = p.msg; $('#modalBtn').textContent = p.btn || 'Ok 💖';
+  const m = $('#modal'); m.classList.add('show'); m.setAttribute('aria-hidden','false');
+  burst(innerWidth/2, innerHeight/2, 120);
+  const btn = $('#modalBtn');
+  btn.onclick = () => { m.classList.remove('show'); m.setAttribute('aria-hidden','true'); cb && cb(); };
+}
+
+function answer(st, e, viaNo){
+  if(st.done) return; st.done = true; answered++;
+  const r = st.yes.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, 110);
+  st.yes.textContent = st.item.doneLabel || 'Yes! 🎉';
+  st.yes.style.left = '50%'; st.yes.style.top = '50%'; st.ys = 1.4; place(st);
+  st.no.style.opacity = 0; st.no.style.pointerEvents = 'none';
+  st.hintEl.textContent = viaNo && st.item.bothMsg ? st.item.bothMsg : (st.item.yesMsg || 'Good girl 😘 Sema!');
+  st.arrow.classList.remove('hidden');
+  if(st.item.fx === 'boondhi') rain();
+  updateMeter();
+  if(st.item.popup) setTimeout(()=> showPopup(Object.assign({poster:true}, st.item.popup), ()=> advance(st, 350)), 1100);
+  else advance(st, st.item.fx ? 3200 : 1600);
 }
 
 function updateMeter(){
@@ -440,7 +590,9 @@ for(let i=1;i<=5;i++){
 
 function buildMessage(){
   const lines = [`Hii ${CONFIG.from}! 💌 Shandhi here — I finished your website 😄`, '', 'My answers:'];
-  states.forEach((st,i)=> lines.push(`${i+1}. ${st.item.q} → ${st.done ? 'YES ✅' : 'skipped'} (tried to say no ${st.tries}x 😜)`));
+  states.forEach((st,i)=> lines.push(st.item.type === 'type'
+    ? `${i+1}. ${st.item.q} → "${st.extra || '-'}" ✍️`
+    : `${i+1}. ${st.item.q} → ${st.done ? 'YES ✅' : 'skipped'} (tried to say no ${st.tries}x 😜)`));
   lines.push('', `Total "No" attempts: ${totalNo}`, `Rating: ${rating ? '💖'.repeat(rating) : '-'} (${rating}/5)`,
     `Favourite question: ${$('#fav').value.trim() || '-'}`, `Feedback: ${$('#msg').value.trim() || '-'}`);
   return lines.join('\n');
