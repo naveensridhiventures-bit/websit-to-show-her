@@ -1,0 +1,47 @@
+*{box-sizing:border-box;margin:0}
+body{font-family:Poppins,sans-serif;color:#fff;background:linear-gradient(135deg,#2b0a3d,#6a1b6f,#c2185b,#ff7e5f);background-size:400% 400%;animation:bg 14s ease infinite;overflow-x:hidden}
+@keyframes bg{50%{background-position:100% 50%}}
+.tamil{font-family:'Baloo Thambi 2',sans-serif}.script{font-family:'Great Vibes',cursive}
+.hearts{position:fixed;inset:0;pointer-events:none;z-index:0}
+.hearts span{position:absolute;bottom:-40px;opacity:.7;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh) rotate(360deg);opacity:0}}
+.hero,.sec,.foot{position:relative;z-index:1}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:30px}
+.hero-photo{width:200px;height:200px;object-fit:cover;object-position:top;border-radius:50%;border:5px solid #fff;box-shadow:0 0 40px #ff80ab;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-14px)}}
+.hero h1{font-size:clamp(3rem,12vw,6rem)}.hero h2{font-size:2rem}
+.glow{text-shadow:0 0 12px #ff80ab,0 0 30px #e040fb;animation:glow 2s infinite alternate}
+@keyframes glow{to{text-shadow:0 0 24px #fff,0 0 50px #ff4081}}
+.quote{font-size:clamp(1.4rem,5vw,2.4rem);min-height:3rem}.caret{display:inline-block;width:3px;height:1.2em;background:#fff;margin-left:3px;animation:blink 1s infinite;vertical-align:middle}
+@keyframes blink{50%{opacity:0}}
+.small{opacity:.8;font-size:.9rem}
+.btn{background:linear-gradient(90deg,#ff4081,#ff9100);border:0;color:#fff;padding:12px 22px;border-radius:30px;font:600 1rem Poppins;cursor:pointer;margin:8px;text-decoration:none;display:inline-block;transition:.2s}
+.btn:hover{transform:scale(1.08)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.pulse{animation:pulse 1.6s infinite}@keyframes pulse{50%{box-shadow:0 0 0 14px #ff408133}}
+.sec{max-width:1100px;margin:auto;padding:70px 20px;text-align:center}
+.title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3rem);margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.grid.three{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:#ffffff1f;backdrop-filter:blur(10px);border:1px solid #ffffff44;border-radius:20px;overflow:hidden;transition:transform .15s}
+.card img{width:100%;height:340px;object-fit:cover;display:block}
+.cap{padding:12px;font-weight:600}
+.music,.quote-card{padding:26px}.music h3{margin-bottom:8px;font-size:1.4rem}.music p{margin-bottom:12px}
+.big{font-size:1.7rem}
+.reveal{opacity:0;transform:translateY(50px) scale(.95);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+.panel{max-width:520px;margin:auto;background:#ffffff1f;backdrop-filter:blur(12px);border-radius:24px;padding:30px;border:1px solid #ffffff44}
+.panel h3{font-size:1.6rem;margin:10px 0}
+.opt{display:block;width:100%;margin:10px 0;padding:14px;border-radius:14px;border:2px solid #ffffff66;background:transparent;color:#fff;font:1rem Poppins;cursor:pointer;transition:.2s}
+.opt:hover{background:#ff4081;transform:translateX(8px)}
+.pop{animation:pop .5s}@keyframes pop{from{transform:scale(.6);opacity:0}}
+.tap-wrap{position:relative;margin:14px 0}
+.tap{font-size:4.5rem;background:none;border:0;cursor:pointer;transition:.1s}.tap:active{transform:scale(.85) rotate(-10deg)}
+.float-up{position:absolute;color:#ffd740;animation:up .8s forwards;pointer-events:none}
+@keyframes up{to{transform:translateY(-60px);opacity:0}}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:520px;margin:20px auto}
+.flip{aspect-ratio:3/4;position:relative;perspective:600px;cursor:pointer}
+.face{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;transition:transform .6s;overflow:hidden}
+.back{background:linear-gradient(135deg,#ff4081,#7c4dff);display:grid;place-items:center;font-size:2rem}
+.front{transform:rotateY(180deg)}.front img{width:100%;height:100%;object-fit:cover}
+.flip.on .back{transform:rotateY(180deg)}.flip.on .front{transform:rotateY(360deg)}
+.foot{text-align:center;padding:60px 20px}.foot .big{font-size:3rem}
