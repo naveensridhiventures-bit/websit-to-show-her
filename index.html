@@ -1,4 +1,476 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>For You 💖 — by Naveen</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@500;800&family=Great+Vibes&family=Poppins:wght@400;600&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet"/>
-</head><body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For Shandhi 💖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ff3d86; --rose:#ff8fb8; --plum:#7b2ff7; --ink:#3b1030; --card:rgba(255,255,255,.72);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Baloo 2',system-ui,sans-serif; color:var(--ink);
+  background:linear-gradient(135deg,#ffd0e5,#e3d0ff,#ffe1cf,#ffd0e5);
+  background-size:400% 400%; animation:bgmove 18s ease infinite; overflow-x:hidden;
+}
+@keyframes bgmove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* top bar */
+#progress{position:fixed;top:0;left:0;height:5px;width:0;background:linear-gradient(90deg,var(--pink),var(--plum));z-index:50;border-radius:0 4px 4px 0}
+#meter{position:fixed;top:12px;right:12px;z-index:50;background:var(--card);backdrop-filter:blur(8px);
+  padding:6px 14px;border-radius:999px;font-weight:700;font-size:.95rem;box-shadow:0 4px 14px rgba(123,47,247,.18)}
+#meter b{color:var(--pink)}
+
+/* floating background hearts */
+.float{position:fixed;bottom:-70px;z-index:0;opacity:.5;pointer-events:none;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-120vh) rotate(360deg)}}
+#confetti{position:fixed;inset:0;z-index:60;pointer-events:none}
+.trail{position:fixed;z-index:55;pointer-events:none;font-size:16px;animation:trail .9s ease-out forwards}
+@keyframes trail{to{transform:translateY(-34px) scale(.3);opacity:0}}
+
+main{position:relative;z-index:1}
+section{
+  min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 18px 48px;text-align:center;position:relative;
+}
+section.locked{display:none}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(46px) scale(.96);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}.reveal.d4{transition-delay:.48s}
+
+/* hero */
+.pill{display:inline-block;background:var(--card);padding:6px 16px;border-radius:999px;font-weight:700;color:var(--plum);margin-bottom:14px;letter-spacing:.5px}
+#hello{font-size:clamp(2.2rem,9vw,5.2rem);font-weight:800;line-height:1.05;max-width:12ch;word-wrap:break-word}
+#hello span{display:inline-block;animation:wave 1.8s ease-in-out infinite;animation-delay:calc(var(--i) * 70ms);
+  background:linear-gradient(180deg,var(--pink),var(--plum));-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes wave{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-14px) rotate(-5deg)}60%{transform:translateY(4px) rotate(3deg)}}
+.tag{font-family:'Pacifico',cursive;font-size:clamp(1.1rem,4vw,1.7rem);margin:18px 0 26px;color:var(--plum)}
+.hero-deco{position:absolute;font-size:clamp(2rem,8vw,4rem);transform:translateY(calc(var(--sy,0) * -0.3px));will-change:transform}
+.deco1{top:12%;left:8%}.deco2{top:18%;right:10%}.deco3{bottom:20%;left:14%}.deco4{bottom:16%;right:12%}
+
+.btn{font-family:inherit;font-weight:800;font-size:1.15rem;border:0;border-radius:999px;padding:14px 30px;cursor:pointer;
+  transition:transform .25s,box-shadow .25s,left .25s,top .25s}
+.btn.yes{background:linear-gradient(135deg,var(--pink),#ff6a3d);color:#fff;box-shadow:0 8px 22px rgba(255,61,134,.4)}
+.btn.yes:hover{box-shadow:0 12px 30px rgba(255,61,134,.55)}
+.btn.no{background:#fff;color:#777;box-shadow:0 4px 12px rgba(0,0,0,.15);cursor:not-allowed}
+.btn.ghost{background:var(--card);color:var(--plum);box-shadow:0 4px 12px rgba(123,47,247,.18)}
+.start{font-size:1.3rem;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+/* arrows */
+.arrow{margin-top:30px;background:none;border:0;cursor:pointer;animation:bob 1.4s ease-in-out infinite;color:var(--pink)}
+.arrow svg{width:46px;height:46px;stroke:currentColor;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.arrow small{display:block;font-family:'Pacifico',cursive;font-size:1rem;color:var(--plum);margin-bottom:4px}
+.arrow.hidden{visibility:hidden}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(14px)}}
+
+/* intro */
+.card{background:var(--card);backdrop-filter:blur(10px);border-radius:28px;padding:28px 26px;max-width:520px;width:100%;
+  box-shadow:0 14px 40px rgba(123,47,247,.16)}
+.card h2{font-size:1.7rem;margin-bottom:12px}
+.rules{list-style:none;text-align:left;font-size:1.12rem;font-weight:500}
+.rules li{padding:8px 0;border-bottom:1px dashed rgba(123,47,247,.25)}
+.rules li:last-child{border:0}
+
+/* questions */
+.qmeta{font-weight:700;color:var(--plum);background:var(--card);padding:4px 14px;border-radius:999px}
+.bigemoji{font-size:clamp(3.5rem,14vw,6rem);margin:10px 0 4px;animation:bob 2.4s ease-in-out infinite}
+.q h2{font-size:clamp(1.6rem,6vw,2.6rem);font-weight:800;max-width:18ch;line-height:1.15}
+.sub{font-size:1.15rem;margin-top:8px;opacity:.85}
+.arena{position:relative;width:min(94vw,680px);height:340px;margin-top:18px}
+.arena .btn{position:absolute;transform:translate(-50%,-50%);white-space:nowrap}
+.arena .btn.no.fast{transition:left .12s,top .12s,transform .2s}
+.hint{min-height:1.6em;margin-top:6px;font-weight:700;color:var(--pink);font-size:1.05rem}
+
+/* feedback */
+.stars{display:flex;gap:8px;justify-content:center;margin:12px 0}
+.stars button{font-size:2.2rem;background:none;border:0;cursor:pointer;transition:transform .2s;filter:grayscale(1) opacity(.5)}
+.stars button.on{filter:none;transform:scale(1.15)}
+.stars button:hover{transform:scale(1.3)}
+input,textarea{width:100%;font-family:inherit;font-size:1.05rem;padding:12px 14px;border-radius:16px;border:2px solid rgba(123,47,247,.25);
+  background:#fff;margin-top:10px;outline:none;color:var(--ink)}
+input:focus,textarea:focus{border-color:var(--pink)}
+textarea{min-height:110px;resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.small{font-size:.92rem;opacity:.8;margin-top:12px}
+
+/* finale */
+.quote{font-family:'Pacifico',cursive;font-size:clamp(1.5rem,6.2vw,2.8rem);line-height:1.5;margin:18px 0;
+  background:linear-gradient(90deg,var(--pink),var(--plum),#ff9a3d,var(--pink));background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite;max-width:20ch}
+@keyframes shine{to{background-position:300% 0}}
+.sign{font-weight:800;font-size:1.3rem}
+.summary{margin-top:14px;font-weight:700;color:var(--plum)}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="meter">💗 Love meter: <b id="meterVal">0%</b></div>
+<canvas id="confetti"></canvas>
+<div id="floats"></div>
+
+<main>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-deco deco1">💖</div><div class="hero-deco deco2">🌸</div>
+    <div class="hero-deco deco3">🦋</div><div class="hero-deco deco4">✨</div>
+    <div class="pill reveal">for my favourite human 💌</div>
+    <h1 id="hello" class="reveal d1" aria-label="Hello Shandhi"></h1>
+    <p class="tag reveal d2">Unakkaga oru chinna surprise irukku 🎁</p>
+    <button class="btn yes start reveal d3" id="startBtn">Open pannu 💌</button>
+    <button class="arrow reveal d4" data-go="intro" aria-label="scroll down">
+      <small>scroll pannu</small>
+      <svg viewBox="0 0 48 48"><path d="M10 16l14 14 14-14"/><path d="M10 30l14 14 14-14" opacity=".45"/></svg>
+    </button>
+  </section>
+
+  <!-- INTRO -->
+  <section id="intro">
+    <div class="card reveal">
+      <h2>Rules of the game 🎮</h2>
+      <ul class="rules">
+        <li>1️⃣ Naan konjam questions kekkaren.</li>
+        <li>2️⃣ Answer sollanum… <b>"Yes"</b> mattum 😌</li>
+        <li>3️⃣ <b>"No"</b> button ellam just decoration 🎀</li>
+        <li>4️⃣ Try pannalam, aana win panna mudiyadhu 😜</li>
+      </ul>
+    </div>
+    <button class="arrow reveal d2" data-go="next" aria-label="scroll down">
+      <small>ready-a?</small>
+      <svg viewBox="0 0 48 48"><path d="M10 16l14 14 14-14"/><path d="M10 30l14 14 14-14" opacity=".45"/></svg>
+    </button>
+  </section>
+
+  <!-- QUESTIONS get built here -->
+  <div id="questions"></div>
+
+  <!-- FEEDBACK -->
+  <section id="feedback" class="locked">
+    <div class="card">
+      <div class="bigemoji reveal">📝</div>
+      <h2 class="reveal d1">Oru chinna feedback kudu 🥹</h2>
+      <p class="reveal d1">Website epdi irukku, Shandhi?</p>
+      <div class="stars reveal d2" id="stars"></div>
+      <input id="fav" class="reveal d2" placeholder="Pudichcha question edhu? 😏">
+      <textarea id="msg" class="reveal d3" placeholder="Unna manasula irukkardha ezhudhu… (kindly be nice 🙈)"></textarea>
+      <div class="row reveal d3">
+        <button class="btn yes" id="sendWa">Send on WhatsApp 💌</button>
+        <button class="btn ghost" id="sendSms">SMS 📱</button>
+        <button class="btn ghost" id="copyMsg">Copy 📋</button>
+      </div>
+      <p class="small">WhatsApp / Messages open aagum — adhula Send button-a nee thaan thattanum 😉</p>
+    </div>
+  </section>
+
+  <!-- FINALE -->
+  <section id="finale" class="locked">
+    <div class="bigemoji reveal">💖</div>
+    <p class="sub reveal d1">Last-u… oru chinna quote 🎤</p>
+    <blockquote class="quote reveal d2" id="quote"></blockquote>
+    <p class="sign reveal d3">— Naveen 😘</p>
+    <p class="summary reveal d3" id="summary"></p>
+    <div class="row reveal d4"><button class="btn ghost" id="replay">Again vilayaadalama? 🔁</button></div>
+  </section>
+</main>
+
+<script>
+/* ======== EDIT ME ======== */
+const CONFIG = {
+  hello: 'Hello Shandhiiiiiiiiii!',
+  from: 'Naveen',
+  phone: '919345917583',            // country code + number (no + or spaces)
+  quote: ['Laada oodacha boondhi,', 'saraku aadicha vaandhi,', 'needhandi yen Sandhiiiiiiiii 💖']
+};
+
+const HINTS = ['Nice try 😜','Cursor-a thookki vachudu 😂','No button ku leave 🏖️','Haha pidikka mudiyadhu 🏃‍♂️',
+  'Aiyoo vidu da 😭','Yes thaan sollanum 😘','Thookitu poidu — Yes press pannu 🥹'];
+
+const QUESTIONS = [
+  {id:'dinner', emoji:'🍽️', q:'Dinner ku pogalama?', sub:'Neeyum naanum, oru periya plate food 😋', mode:'grow',
+    labels:['No','Nope','Sure-a?','Yosi pannu 🤔','Pavam da naan 🥺','Aiyoo plz','Last chance 😭']},
+  {id:'dress', emoji:'👗', q:'Naan unakku oru dress vaangi tharattuma?', sub:'Colour-a nee choose pannikalam 😌', mode:'impossible'},
+  {id:'kevalam', emoji:'😤', q:'Enna kevalama ninaikkiriya?', sub:'Nalla yosichu sollu…', mode:'both',
+    yes:'Yes', no:'Noo', bothMsg:'Yes sonnalum Noo sonnalum answer ore mari thaan 😏 (you love me!)'},
+  {id:'panipuri', emoji:'🥟', q:'Pani puri naan vaangi tharen — share pannuviya?', sub:'Extra masala-vum naan thaan 🌶️', mode:'shrink'},
+  {id:'morning', emoji:'☀️', q:'Daily oru "Good morning" message anuppuviya?', sub:'Unga message-ku dhaan naan wake up 🥰', mode:'swap'},
+  {id:'drive', emoji:'🚗', q:'Oru long drive, songs-oda pogalama?', sub:'Petrol naan poduren, deal? 🎶', mode:'labels',
+    labels:['No','Sure ah?','Think again 🤨','Window seat tharen 🪟','Plz plz 🥺','Okay… Yes 😅']},
+  {id:'cute', emoji:'😏', q:'Cutest person kitta thaan pesitu irukkennu othukkiriya?', sub:'Mirror pakkathula nikkadha 🪞', mode:'impossible'},
+  {id:'last', emoji:'🥺', q:'Neeyum ennai konjam pidikkum nu othukkiriya?', sub:'Last question, promise 🤞', mode:'grow',
+    labels:['No','Kandippa?','Heart-a thottu sollu 💓','Appo Yes thaan 😌','Plzzz 🥹','Aiyo da 😭']}
+];
+
+/* ======== STATE ======== */
+const states = []; let totalNo = 0, answered = 0, rating = 0;
+const $ = s => document.querySelector(s);
+
+/* ======== HELLO LETTERS ======== */
+(function(){
+  const h = $('#hello');
+  [...CONFIG.hello].forEach((ch,i)=>{
+    const s = document.createElement('span'); s.style.setProperty('--i', i);
+    s.innerHTML = ch === ' ' ? '&nbsp;' : ch; h.appendChild(s);
+  });
+})();
+
+/* ======== BACKGROUND FLOATS ======== */
+(function(){
+  const em = ['💖','💕','✨','🌸','🍫','💫','🦋','🍰','🎀'];
+  const box = $('#floats');
+  for(let i=0;i<24;i++){
+    const s = document.createElement('span'); s.className='float'; s.textContent = em[i % em.length];
+    s.style.left = Math.random()*100+'%'; s.style.fontSize = (14+Math.random()*26)+'px';
+    s.style.animationDuration = (9+Math.random()*10)+'s'; s.style.animationDelay = (-Math.random()*18)+'s';
+    box.appendChild(s);
+  }
+})();
+
+/* ======== SCROLL: progress, parallax, reveal ======== */
+let ticking = false;
+addEventListener('scroll', ()=>{
+  if(ticking) return; ticking = true;
+  requestAnimationFrame(()=>{
+    const max = document.documentElement.scrollHeight - innerHeight;
+    $('#progress').style.width = (max>0 ? scrollY/max*100 : 0)+'%';
+    document.documentElement.style.setProperty('--sy', scrollY);
+    ticking = false;
+  });
+}, {passive:true});
+
+const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); } }), {threshold:.2});
+function observeAll(root){ root.querySelectorAll('.reveal').forEach(el => io.observe(el)); }
+observeAll(document);
+
+/* arrow buttons */
+function nextVisibleSection(from){
+  let el = from.closest('section');
+  while(el){
+    el = el.nextElementSibling;
+    if(!el) return null;
+    if(el.id === 'questions') el = el.firstElementChild;
+    if(el && el.tagName === 'SECTION' && !el.classList.contains('locked')) return el;
+    if(el && el.nextElementSibling === null && el.parentElement.id === 'questions'){
+      const n = $('#questions').nextElementSibling; if(n && !n.classList.contains('locked')) return n;
+    }
+  }
+  return null;
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('.arrow'); if(!a) return;
+  const go = a.dataset.go;
+  const target = go === 'next' ? nextVisibleSection(a) : document.getElementById(go);
+  if(target) target.scrollIntoView({behavior:'smooth'});
+});
+$('#startBtn').addEventListener('click', ()=>{ burst(innerWidth/2, innerHeight/2, 60); $('#intro').scrollIntoView({behavior:'smooth'}); });
+
+/* ======== CONFETTI ======== */
+const cv = $('#confetti'), cx = cv.getContext('2d'); let parts = [], running = false;
+function sizeCanvas(){ cv.width = innerWidth; cv.height = innerHeight; } sizeCanvas(); addEventListener('resize', sizeCanvas);
+function burst(x,y,n=90){
+  const em = ['💖','🎉','✨','💕','🌸'];
+  for(let i=0;i<n;i++){
+    const a = Math.random()*Math.PI*2, v = 4+Math.random()*9;
+    parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-6,life:100+Math.random()*60,size:12+Math.random()*16,
+      e: Math.random()<.45 ? em[(Math.random()*em.length)|0] : null, c:`hsl(${Math.random()*360} 90% 60%)`,r:Math.random()*6,vr:(Math.random()-.5)*.3});
+  }
+  if(!running){ running = true; requestAnimationFrame(tick); }
+}
+function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts = parts.filter(p => p.life > 0 && p.y < cv.height + 40);
+  for(const p of parts){
+    p.vy += .25; p.x += p.vx; p.y += p.vy; p.vx *= .99; p.r += p.vr; p.life--;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r); cx.globalAlpha = Math.min(1,p.life/30);
+    if(p.e){ cx.font = p.size+'px serif'; cx.fillText(p.e,0,0); }
+    else { cx.fillStyle = p.c; cx.fillRect(-p.size/4,-p.size/6,p.size/2,p.size/3); }
+    cx.restore();
+  }
+  if(parts.length) requestAnimationFrame(tick); else running = false;
+}
+
+/* ======== CURSOR HEART TRAIL ======== */
+let lastTrail = 0;
+addEventListener('pointermove', e => {
+  const now = performance.now(); if(now - lastTrail < 70) return; lastTrail = now;
+  const s = document.createElement('span'); s.className = 'trail'; s.textContent = ['💖','✨','💕'][(Math.random()*3)|0];
+  s.style.left = e.clientX+'px'; s.style.top = e.clientY+'px'; document.body.appendChild(s);
+  setTimeout(()=>s.remove(), 900);
+});
+
+/* ======== QUESTIONS ======== */
+const arrowSVG = '<small>scroll pannu</small><svg viewBox="0 0 48 48"><path d="M10 16l14 14 14-14"/><path d="M10 30l14 14 14-14" opacity=".45"/></svg>';
+
+function buildQuestion(item,i){
+  const s = document.createElement('section'); s.className = 'q' + (i === 0 ? '' : ' locked'); s.id = 'q-'+item.id;
+  const yesLabel = item.yes || 'Yes 💖', noLabel = item.no || 'No';
+  s.innerHTML = `
+    <div class="qmeta reveal">Question ${i+1} of ${QUESTIONS.length}</div>
+    <div class="bigemoji reveal d1">${item.emoji}</div>
+    <h2 class="reveal d1">${item.q}</h2>
+    <p class="sub reveal d2">${item.sub}</p>
+    <div class="arena reveal d3">
+      <button class="btn yes">${yesLabel}</button>
+      <button class="btn no ${item.mode==='impossible'?'fast':''}">${noLabel}</button>
+    </div>
+    <p class="hint"></p>
+    <button class="arrow hidden" data-go="next" aria-label="next">${arrowSVG}</button>`;
+  const st = {item, i, el:s, arena:s.querySelector('.arena'), yes:s.querySelector('.yes'), no:s.querySelector('.no'),
+    hintEl:s.querySelector('.hint'), arrow:s.querySelector('.arrow'), ys:1, ns:1, tries:0, done:false, noIsYes:false, last:0,
+    yesPos:['50%','38%'], noPos:['50%','84%']};
+  if(item.mode === 'swap'){ st.yesPos = ['30%','50%']; st.noPos = ['70%','50%']; }
+  if(item.mode === 'both'){ st.yesPos = ['32%','50%']; st.noPos = ['68%','50%']; }
+  states.push(st);
+  place(st, true);
+  wire(st);
+  return s;
+}
+
+function place(st, initial){
+  if(initial){
+    st.yes.style.left = st.yesPos[0]; st.yes.style.top = st.yesPos[1];
+    st.no.style.left = st.noPos[0]; st.no.style.top = st.noPos[1];
+  }
+  st.yes.style.transform = `translate(-50%,-50%) scale(${st.ys})`;
+  st.no.style.transform = `translate(-50%,-50%) scale(${st.ns})`;
+}
+
+function dodge(st, e){
+  const a = st.arena.getBoundingClientRect(), nb = st.no.getBoundingClientRect(), yb = st.yes.getBoundingClientRect();
+  const w = nb.width, h = nb.height;
+  const px = e && e.clientX != null ? e.clientX : -999, py = e && e.clientY != null ? e.clientY : -999;
+  let best = null;
+  for(let t=0;t<30;t++){
+    const x = w/2 + Math.random()*Math.max(1,a.width-w), y = h/2 + Math.random()*Math.max(1,a.height-h);
+    const cxp = a.left + x, cyp = a.top + y;
+    const far = Math.hypot(cxp-px, cyp-py) > 160;
+    const overlap = !(cxp+w/2 < yb.left-10 || cxp-w/2 > yb.right+10 || cyp+h/2 < yb.top-10 || cyp-h/2 > yb.bottom+10);
+    if(!best) best = [x,y];
+    if(far && !overlap){ best = [x,y]; break; }
+  }
+  st.no.style.left = best[0]+'px'; st.no.style.top = best[1]+'px';
+}
+
+function turnIntoYes(st, label){
+  st.noIsYes = true; st.ns = 1; st.no.textContent = label || 'Yes 😍';
+  st.no.classList.remove('no'); st.no.classList.add('yes'); st.no.style.cursor = 'pointer';
+  place(st); st.hintEl.textContent = 'Ippo dhaan sari 😌';
+}
+
+function noAttempt(st, e){
+  const now = performance.now(); if(now - st.last < 160) return; st.last = now;
+  if(st.done) return;
+  if(st.noIsYes){ if(e.type === 'click') answer(st, e); return; }
+  const m = st.item.mode;
+  if(m === 'both'){ if(e.type === 'click') answer(st, e, true); return; }
+  st.tries++; totalNo++;
+  st.hintEl.textContent = HINTS[Math.min(st.tries-1, HINTS.length-1)];
+  const labels = st.item.labels;
+  if(labels) st.no.textContent = labels[Math.min(st.tries, labels.length-1)];
+
+  if(m === 'grow'){
+    st.ys = Math.min(st.ys + .3, 2.4); st.ns = Math.max(st.ns - .06, .55); dodge(st, e); place(st);
+  } else if(m === 'impossible'){
+    dodge(st, e); place(st);
+    if(st.tries >= 7) turnIntoYes(st);
+  } else if(m === 'shrink'){
+    st.ns *= .8; dodge(st, e); place(st);
+    if(st.ns < .24){ st.no.style.opacity = 0; st.no.style.pointerEvents = 'none'; st.hintEl.textContent = 'No button retire aayiduchu 🎉 Yes thaan iruku!'; }
+  } else if(m === 'swap'){
+    const t = st.yes.style.left; st.yes.style.left = st.no.style.left; st.no.style.left = t; place(st);
+    if(st.tries >= 5) turnIntoYes(st, 'Yes 😂');
+  } else if(m === 'labels'){
+    st.ns = Math.max(st.ns - .05, .6); dodge(st, e); place(st);
+    if(st.tries >= labels.length-1) turnIntoYes(st, labels[labels.length-1]);
+  }
+  updateMeter();
+}
+
+function wire(st){
+  ['pointerenter','pointerdown','focus'].forEach(ev => st.no.addEventListener(ev, e => {
+    if(st.item.mode === 'both') return;
+    if(ev === 'pointerdown' && !st.noIsYes) e.preventDefault();
+    if(ev === 'pointerenter' && st.noIsYes) return;
+    if(ev === 'pointerdown' && st.noIsYes) return;
+    noAttempt(st, e);
+  }));
+  st.no.addEventListener('click', e => { e.preventDefault(); noAttempt(st, e); });
+  st.yes.addEventListener('click', e => answer(st, e));
+}
+
+function answer(st, e, viaNo){
+  if(st.done) return; st.done = true; answered++;
+  const r = st.yes.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, 110);
+  st.yes.textContent = 'Yes! 🎉';
+  st.yes.style.left = '50%'; st.yes.style.top = '50%'; st.ys = 1.4; place(st);
+  st.no.style.opacity = 0; st.no.style.pointerEvents = 'none';
+  st.hintEl.textContent = viaNo && st.item.bothMsg ? st.item.bothMsg : 'Good girl 😘 Sema!';
+  st.arrow.classList.remove('hidden');
+  updateMeter();
+  setTimeout(()=>{
+    const nxt = states[st.i+1];
+    if(nxt){ nxt.el.classList.remove('locked'); observeAll(nxt.el); nxt.el.scrollIntoView({behavior:'smooth'}); }
+    else { const f = $('#feedback'); f.classList.remove('locked'); observeAll(f); f.scrollIntoView({behavior:'smooth'}); }
+  }, 1600);
+}
+
+function updateMeter(){
+  const pct = Math.min(100, Math.round(answered / QUESTIONS.length * 100));
+  $('#meterVal').textContent = pct + '%' + (totalNo ? ' · No tries: ' + totalNo : '');
+}
+
+const qBox = $('#questions');
+QUESTIONS.forEach((it,i) => qBox.appendChild(buildQuestion(it,i)));
+observeAll(qBox);
+
+/* ======== FEEDBACK ======== */
+const starsBox = $('#stars');
+for(let i=1;i<=5;i++){
+  const b = document.createElement('button'); b.type = 'button'; b.textContent = '💖'; b.setAttribute('aria-label', i+' hearts');
+  b.addEventListener('click', ()=>{ rating = i; [...starsBox.children].forEach((c,j)=>c.classList.toggle('on', j<i)); });
+  starsBox.appendChild(b);
+}
+
+function buildMessage(){
+  const lines = [`Hii ${CONFIG.from}! 💌 Shandhi here — I finished your website 😄`, '', 'My answers:'];
+  states.forEach((st,i)=> lines.push(`${i+1}. ${st.item.q} → ${st.done ? 'YES ✅' : 'skipped'} (tried to say no ${st.tries}x 😜)`));
+  lines.push('', `Total "No" attempts: ${totalNo}`, `Rating: ${rating ? '💖'.repeat(rating) : '-'} (${rating}/5)`,
+    `Favourite question: ${$('#fav').value.trim() || '-'}`, `Feedback: ${$('#msg').value.trim() || '-'}`);
+  return lines.join('\n');
+}
+
+function finish(){
+  const f = $('#finale'); f.classList.remove('locked');
+  $('#quote').innerHTML = CONFIG.quote.join('<br>');
+  $('#summary').textContent = `${answered} / ${QUESTIONS.length} Yes · ${totalNo} failed "No" attempts 😂`;
+  observeAll(f);
+  setTimeout(()=>{
+    f.scrollIntoView({behavior:'smooth'});
+    let n = 0; const t = setInterval(()=>{ burst(Math.random()*innerWidth, innerHeight*.3, 70); if(++n > 8) clearInterval(t); }, 450);
+  }, 700);
+}
+
+$('#sendWa').addEventListener('click', ()=>{
+  window.open(`https://wa.me/${CONFIG.phone}?text=${encodeURIComponent(buildMessage())}`, '_blank');
+  finish();
+});
+$('#sendSms').addEventListener('click', ()=>{
+  const sep = /iPhone|iPad|iPod/.test(navigator.userAgent) ? '&' : '?';
+  location.href = `sms:+${CONFIG.phone}${sep}body=${encodeURIComponent(buildMessage())}`;
+  finish();
+});
+$('#copyMsg').addEventListener('click', async ()=>{
+  try{ await navigator.clipboard.writeText(buildMessage()); $('#copyMsg').textContent = 'Copied ✅'; }
+  catch(e){ $('#copyMsg').textContent = 'Copy failed 😅'; }
+});
+$('#replay').addEventListener('click', ()=> location.reload());
+</script>
+</body>
+</html>
